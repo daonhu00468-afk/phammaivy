@@ -6,144 +6,133 @@
 <title>Quản Lý Cây Viết</title>
 
 <style>
-body{
-  margin:0;
-  font-family:Arial;
-  background:#e5e5e5;
-  display:flex;
-  justify-content:center;
-  padding:30px 0;
+body {
+  background: #e5e5e5;
+  display: flex;
+  justify-content: center;
+  padding: 30px 0;
+  font-family: Arial, sans-serif;
 }
 
-.phone{
-  width:390px;
-  background:white;
-  border-radius:30px;
-  overflow:hidden;
-  box-shadow:0 20px 40px rgba(0,0,0,0.2);
+.phone {
+  width: 390px;
+  background: white;
+  border-radius: 30px;
+  overflow: hidden;
+  box-shadow: 0 20px 40px rgba(0,0,0,0.2);
 }
 
-.header{
-  background:#4CAF50;
-  color:white;
-  padding:15px;
-  text-align:center;
-  font-weight:bold;
-  position:relative;
+.header {
+  background: #4CAF50;
+  color: white;
+  padding: 15px;
+  text-align: center;
+  font-weight: bold;
+  font-size: 18px;
+  position: relative;
 }
 
-.total{
-  position:absolute;
-  right:15px;
-  top:15px;
-  font-size:13px;
+.total {
+  position: absolute;
+  right: 15px;
+  top: 15px;
+  font-size: 14px;
 }
 
-.content{
-  padding:15px;
+.content {
+  padding: 15px;
 }
 
-input{
-  width:100%;
-  padding:10px;
-  margin-bottom:10px;
-  border-radius:12px;
-  border:1px solid #ccc;
+input {
+  width: 100%;
+  padding: 12px;
+  margin-bottom: 10px;
+  border-radius: 12px;
+  border: 1px solid #ccc;
+  font-size: 14px;
 }
 
-button{
-  width:100%;
-  padding:10px;
-  border:none;
-  border-radius:12px;
-  background:#4CAF50;
-  color:white;
-  margin-bottom:10px;
-  cursor:pointer;
+button {
+  width: 100%;
+  padding: 12px;
+  background: #4CAF50;
+  color: white;
+  border: none;
+  border-radius: 12px;
+  font-size: 15px;
+  margin-bottom: 15px;
+  cursor: pointer;
 }
 
-button:hover{
-  background:#45a049;
+button:hover {
+  opacity: 0.9;
 }
 
-.small-btn{
-  font-size:11px;
-  padding:4px 8px;
-  width:auto;
-  margin-left:5px;
+.small-btn {
+  width: auto;
+  padding: 4px 8px;
+  font-size: 11px;
+  margin-left: 5px;
 }
 
-.delete-btn{
-  background:red;
+.pen-item {
+  background: #f5f5f5;
+  padding: 12px;
+  border-radius: 15px;
+  margin-bottom: 8px;
 }
 
-.pen-item{
-  background:#f5f5f5;
-  padding:10px;
-  border-radius:15px;
-  margin-bottom:8px;
+.search-box {
+  position: relative;
 }
 
-/* SEARCH NỔI BẬT */
-.search-box{
-  position:relative;
-  margin-top:10px;
+.suggestion-count {
+  position: absolute;
+  right: 10px;
+  top: 10px;
+  font-size: 12px;
+  color: #4CAF50;
 }
 
-.search-box input{
-  padding-left:35px;
-  background:#f0f7f2;
-  border:2px solid transparent;
-  transition:0.3s;
+.qr-btn {
+  background: #2196F3;
 }
 
-.search-box input:focus{
-  border:2px solid #4CAF50;
-  background:white;
-  outline:none;
-  box-shadow:0 0 8px rgba(76,175,80,0.3);
+#qr-container {
+  display: none;
+  text-align: center;
 }
 
-.search-icon{
-  position:absolute;
-  left:12px;
-  top:11px;
-  font-size:14px;
-  color:#4CAF50;
+.scanner-box {
+  position: relative;
+  width: 300px;
+  margin: auto;
+  border: 4px solid #4CAF50;
+  border-radius: 15px;
+  overflow: hidden;
 }
 
-.search-count{
-  position:absolute;
-  right:12px;
-  top:11px;
-  font-size:12px;
-  color:#4CAF50;
-  font-weight:bold;
+#qr-reader {
+  width: 100%;
 }
 
-.suggestions{
-  background:white;
-  border-radius:15px;
-  box-shadow:0 8px 20px rgba(0,0,0,0.1);
-  max-height:160px;
-  overflow-y:auto;
-  margin-top:5px;
-  border:1px solid #e0e0e0;
+.scan-line {
+  position: absolute;
+  width: 100%;
+  height: 3px;
+  background: red;
+  top: 0;
+  animation: scanMove 2s infinite alternate;
 }
 
-.suggestion-item{
-  padding:10px;
-  font-size:14px;
-  transition:0.2s;
-  cursor:pointer;
+@keyframes scanMove {
+  from { top: 0; }
+  to { top: 95%; }
 }
 
-.suggestion-item:hover{
-  background:#e8f5e9;
-}
-
-.hidden{
-  display:none;
+.stop-btn {
+  background: red;
+  margin-top: 10px;
 }
 </style>
 </head>
@@ -151,159 +140,150 @@ button:hover{
 <body>
 
 <div class="phone">
-
-<div id="loginBox" class="content">
-  <h2 style="text-align:center;">Đăng nhập</h2>
-  <input type="text" id="username" placeholder="Nhập tên tài khoản">
-  <button onclick="login()">Vào</button>
-</div>
-
-<div id="appBox" class="hidden">
-
   <div class="header">
     📒 Quản Lý Cây Viết
     <div class="total" id="total">Tổng: 0</div>
   </div>
 
   <div class="content">
-    <div id="welcome" style="margin-bottom:10px;"></div>
-
     <input type="text" id="penName" placeholder="Tên cây viết...">
     <input type="text" id="penNote" placeholder="Chú thích...">
     <button onclick="addPen()">Thêm cây viết</button>
 
-    <!-- SEARCH -->
     <div class="search-box">
-      <span class="search-icon">🔎</span>
-      <input type="text" id="searchInput" placeholder="Tìm cây viết..." onkeyup="searchPens()">
-      <div class="search-count" id="searchCount"></div>
+      <input type="text" id="searchInput" placeholder="🔍 Tìm kiếm..." onkeyup="renderPens()">
+      <div class="suggestion-count" id="suggestionCount"></div>
     </div>
-    <div id="suggestions" class="suggestions hidden"></div>
+
+    <button onclick="startQR()" class="qr-btn">📷 Quét QR</button>
+
+    <div id="qr-container">
+        <div class="scanner-box">
+            <div id="qr-reader"></div>
+            <div class="scan-line"></div>
+        </div>
+        <button onclick="stopQR()" class="stop-btn">❌ Tắt Camera</button>
+    </div>
 
     <div id="penList"></div>
-
-    <button onclick="logout()" style="background:#555;">Đăng xuất</button>
   </div>
-
 </div>
 
-</div>
+<audio id="beepSound">
+  <source src="https://actions.google.com/sounds/v1/cartoon/wood_plank_flicks.ogg" type="audio/ogg">
+</audio>
+
+<script src="https://unpkg.com/html5-qrcode"></script>
 
 <script>
-let currentUser = localStorage.getItem("currentUser");
-let pens = [];
+let pens = JSON.parse(localStorage.getItem("pens")) || [];
 let editIndex = -1;
+let qrScanner;
 
-if(currentUser){
-  startApp();
+function saveData() {
+  localStorage.setItem("pens", JSON.stringify(pens));
 }
 
-function login(){
-  const user=document.getElementById("username").value.trim();
-  if(user==="") return alert("Nhập tên tài khoản!");
-  localStorage.setItem("currentUser",user);
-  startApp();
+function updateTotal() {
+  document.getElementById("total").innerText = "Tổng: " + pens.length;
 }
 
-function startApp(){
-  currentUser=localStorage.getItem("currentUser");
-  document.getElementById("loginBox").classList.add("hidden");
-  document.getElementById("appBox").classList.remove("hidden");
-  document.getElementById("welcome").innerText="Xin chào: "+currentUser;
-  pens=JSON.parse(localStorage.getItem("pens_"+currentUser))||[];
-  renderPens();
-}
+function addPen() {
+  const name = document.getElementById("penName").value.trim();
+  const note = document.getElementById("penNote").value.trim();
 
-function saveData(){
-  localStorage.setItem("pens_"+currentUser,JSON.stringify(pens));
-}
+  if (name === "") {
+    alert("Bạn chưa nhập tên!");
+    return;
+  }
 
-function updateTotal(){
-  document.getElementById("total").innerText="Tổng: "+pens.length;
-}
-
-function addPen(){
-  const name=document.getElementById("penName").value.trim();
-  const note=document.getElementById("penNote").value.trim();
-  if(name==="") return;
-
-  if(editIndex===-1){
-    pens.push({name,note});
-  }else{
-    pens[editIndex]={name,note};
-    editIndex=-1;
+  if (editIndex === -1) {
+    pens.push({name, note});
+  } else {
+    pens[editIndex] = {name, note};
+    editIndex = -1;
   }
 
   saveData();
   renderPens();
-  document.getElementById("penName").value="";
-  document.getElementById("penNote").value="";
+  document.getElementById("penName").value = "";
+  document.getElementById("penNote").value = "";
 }
 
-function editPen(index){
-  document.getElementById("penName").value=pens[index].name;
-  document.getElementById("penNote").value=pens[index].note;
-  editIndex=index;
+function editPen(index) {
+  document.getElementById("penName").value = pens[index].name;
+  document.getElementById("penNote").value = pens[index].note;
+  editIndex = index;
 }
 
-function deletePen(index){
-  if(confirm("Xoá cây viết này?")){
+function deletePen(index) {
+  if (confirm("Bạn có chắc muốn xoá?")) {
     pens.splice(index,1);
     saveData();
     renderPens();
   }
 }
 
-function renderPens(){
-  const list=document.getElementById("penList");
-  list.innerHTML="";
-  pens.forEach((pen,index)=>{
-    list.innerHTML+=`
-      <div class="pen-item">
-        <b>${pen.name}</b><br>
-        <small>${pen.note}</small><br><br>
-        <button class="small-btn" onclick="editPen(${index})">Sửa</button>
-        <button class="small-btn delete-btn" onclick="deletePen(${index})">Xoá</button>
-      </div>
-    `;
+function renderPens() {
+  const searchText = document.getElementById("searchInput").value.toLowerCase();
+  const list = document.getElementById("penList");
+  list.innerHTML = "";
+
+  let matchCount = 0;
+
+  pens.forEach((pen, index) => {
+    if (pen.name.toLowerCase().includes(searchText)) {
+      matchCount++;
+      list.innerHTML += `
+        <div class="pen-item">
+          <b>${pen.name}</b><br>
+          <small>${pen.note}</small><br><br>
+          <button class="small-btn" onclick="editPen(${index})">Sửa</button>
+          <button class="small-btn" onclick="deletePen(${index})" style="background:red;">Xoá</button>
+        </div>
+      `;
+    }
   });
+
+  document.getElementById("suggestionCount").innerText =
+    searchText ? matchCount + " kết quả" : "";
+
   updateTotal();
 }
 
-function searchPens(){
-  const keyword=document.getElementById("searchInput").value.toLowerCase();
-  const suggestions=document.getElementById("suggestions");
-  const countBox=document.getElementById("searchCount");
+function startQR() {
+    document.getElementById("qr-container").style.display = "block";
 
-  if(keyword===""){
-    suggestions.classList.add("hidden");
-    countBox.innerText="";
-    return;
-  }
+    qrScanner = new Html5Qrcode("qr-reader");
 
-  const results=pens.filter(pen =>
-    pen.name.toLowerCase().includes(keyword) ||
-    pen.note.toLowerCase().includes(keyword)
-  );
+    qrScanner.start(
+        { facingMode: "environment" },
+        { fps: 10, qrbox: 250 },
+        (qrCodeMessage) => {
 
-  countBox.innerText=results.length+" kết quả";
+            document.getElementById("searchInput").value = qrCodeMessage;
+            renderPens();
 
-  suggestions.innerHTML="";
-  results.forEach(pen=>{
-    suggestions.innerHTML+=`
-      <div class="suggestion-item">
-        <b>${pen.name}</b> - ${pen.note}
-      </div>
-    `;
-  });
+            document.getElementById("beepSound").play();
 
-  suggestions.classList.remove("hidden");
+            if (navigator.vibrate) {
+                navigator.vibrate(200);
+            }
+
+            stopQR();
+        }
+    );
 }
 
-function logout(){
-  localStorage.removeItem("currentUser");
-  location.reload();
+function stopQR() {
+    if (qrScanner) {
+        qrScanner.stop().then(() => {
+            document.getElementById("qr-container").style.display = "none";
+        });
+    }
 }
+
+renderPens();
 </script>
 
 </body>
